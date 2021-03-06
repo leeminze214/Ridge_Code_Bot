@@ -3,15 +3,24 @@ import json
 from discord.ext import commands, tasks
 
 token = open('tok.txt').read()
-bot = commands.Bot(command_prefix='.',help_command =None)
-
+bot = commands.Bot(command_prefix='.',intents = discord.Intents.all(), help_command =None)
+doc = None
+msg_count = 0
 
 def load_resources():
+    global doc
     with open('resources.json') as r:
         doc = json.load(r)
-    return doc
 
-doc = load_resources()
+async def load_msgs():
+    global msg_count
+    sent = 0
+    for i in bot.guilds:     
+        if i.name == 'testing':  
+            for j in i.text_channels:
+                messages = len(await j.history(limit = None).flatten())         
+                sent+=messages
+    msg_count = sent
 
 def add_enumerate(it):
     value = ''
@@ -20,6 +29,7 @@ def add_enumerate(it):
         value += f'{num}. [{j}]({it[j]})\n'
     return value
 
+#-----------------------------------------------------------------
 @bot.event
 async def on_member_join(member):
     print('running')
@@ -31,7 +41,31 @@ async def on_member_join(member):
 async def on_ready():
     print('logged in as {0.user}'.format(bot))
     load_resources()
+    await load_msgs()
 
+
+@bot.event
+async def on_message(msg):
+    global msg_count
+    msg_count +=1
+    await bot.process_commands(msg)
+    
+@bot.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! Latency is {round(bot.latency*1000,2)}ms')
+
+@bot.command()
+async def analytics(ctx):
+    
+    if "Admin" in [i.name for i in ctx.author.roles]:
+        members = ctx.guild.member_count
+        messages = msg_count
+        embed = discord.Embed()
+        embed.title ="Analytics"
+        embed.add_field(name = "Members", value = members, inline = True)
+        embed.add_field(name = "Messages", value = messages, inline = True)
+        await ctx.send(embed=embed)
+        
     
 @bot.command(name = 'les')
 async def lessons(ctx, *args):
@@ -39,6 +73,7 @@ async def lessons(ctx, *args):
     q = q[0].upper()+q[1:].lower()
     result = None
     embed = discord.Embed()
+    
     if q == 'All':
         embed.title = f"Ridge Coder Lessons"
         
@@ -52,9 +87,10 @@ async def lessons(ctx, *args):
             result =[doc[q],q]
         except:
             pass
+        
         if result == None:
             await ctx.send(f"{ctx.author.mention} Sorry, no lessons found on `{q}`")
-            
+    
         else:
             embed.title = "Ridge Coder Lessons"
             value=add_enumerate(result[0])
