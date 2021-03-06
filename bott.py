@@ -13,6 +13,13 @@ def load_resources():
 
 doc = load_resources()
 
+def add_enumerate(it):
+    value = ''
+    for num,j in enumerate(it):
+        num +=1
+        value += f'{num}. [{j}]({it[j]})\n'
+    return value
+
 @bot.event
 async def on_member_join(member):
     print('running')
@@ -29,30 +36,29 @@ async def on_ready():
 @bot.command(name = 'les')
 async def lessons(ctx, *args):
     q = ''.join([i+' ' for i in args])[:-1]
+    q = q[0].upper()+q[1:].lower()
     result = None
     embed = discord.Embed()
-    if q == 'all':
+    if q == 'All':
         embed.title = f"Ridge Coder Lessons"
-        value = ''
-        for num,i in enumerate(doc):
-            num +=1
-            value += f'{num}. [{i}]({doc[i]})\n'
-        print(value)
-        embed.add_field(name = 'All Lessons', value = value, inline = True)
+        
+        for i in doc:
+            value = add_enumerate(doc[i])
+            embed.add_field(name = f'{i}', value = value, inline = True)
         await ctx.send(embed=embed)
         
     else:
-        for i in range(len(q)):
-            try:
-                result =[doc[q],q]
-            except:
-                pass
+        try:
+            result =[doc[q],q]
+        except:
+            pass
         if result == None:
             await ctx.send(f"{ctx.author.mention} Sorry, no lessons found on `{q}`")
             
         else:
-            embed.title = f"Ridge Coder Lessons"
-            embed.description = f"Here are your results on [{result[1]}]({result[0]})."
+            embed.title = "Ridge Coder Lessons"
+            value=add_enumerate(result[0])
+            embed.add_field(name = f'{result[1]}', value = value)
             await ctx.send(embed=embed)
         
 @bot.command()
