@@ -55,6 +55,15 @@ async def ping(ctx):
     await ctx.send(f'Pong! Latency is {round(bot.latency*1000,2)}ms')
 
 @bot.command()
+async def help(ctx):
+    embed = discord.Embed()
+    lesson = "`.les <topic>` ---> fetch lessons on <topic>, use 'all' to see all lessons"
+    embed.title = "Help"
+    embed.description = "I am the Ridge Coder Bot, Here are a list of my functions!"
+    embed.add_field(name = 'Access Lessons', value =lesson) 
+    await ctx.send(embed=embed)
+    
+@bot.command()
 async def analytics(ctx):
     
     if "Admin" in [i.name for i in ctx.author.roles]:
