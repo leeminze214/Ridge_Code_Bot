@@ -36,6 +36,8 @@ async def on_member_join(member):
     await member.send(f'Welcome to Ridge Coders, {member.mention}')
     role = discord.utils.get(member.guild.roles, name="coders")
     await member.add_roles(role)
+
+
     
 @bot.event
 async def on_ready():
@@ -44,24 +46,38 @@ async def on_ready():
     await load_msgs()
 
 
+
 @bot.event
 async def on_message(msg):
     global msg_count
     msg_count +=1
     await bot.process_commands(msg)
-    
+
+
+
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! Latency is {round(bot.latency*1000,2)}ms')
 
+
+
 @bot.command()
 async def help(ctx):
     embed = discord.Embed()
-    lesson = "`.les <topic>` ---> fetch lessons on <topic>, use 'all' to see all lessons"
+    lesson = """
+            `.les all` ---> fetch all lessons
+            `.les <topic>` ---> fetch lessons on <topic>
+            """
+    social = """
+            `.social` ---> see all social platforms
+            """
     embed.title = "Help"
-    embed.description = "I am the Ridge Coder Bot, Here are a list of my functions!"
-    embed.add_field(name = 'Access Lessons', value =lesson) 
+    embed.description = "I am the Ridge Coder Bot, Here is a list of my functions!\n"
+    embed.add_field(name = '📚 Access Lessons',value =lesson, inline = False)
+    embed.add_field(name = '📧 Scials', value = social, inline = False)
     await ctx.send(embed=embed)
+
+
     
 @bot.command()
 async def analytics(ctx):
@@ -71,10 +87,27 @@ async def analytics(ctx):
         messages = msg_count
         embed = discord.Embed()
         embed.title ="Analytics"
-        embed.add_field(name = "Members", value = members, inline = True)
-        embed.add_field(name = "Messages", value = messages, inline = True)
+        embed.add_field(name = "Members", value = members)
+        embed.add_field(name = "Messages", value = messages)
         await ctx.send(embed=embed)
+
+
         
+@bot.command()
+async def social(ctx):
+    embed = discord.Embed()
+    instagram = """
+            [@Ridgecoders](https://www.instagram.com/ridgecoders/?hl=en)
+        """
+    email = """
+            Ridgecoders@gmail.com
+        """
+    embed.title = "Ridge Coder Socials"
+    embed.add_field(name= "📷 Instagram",value = instagram,inline = False)
+    embed.add_field (name = "📧 Email",value = email, inline = False)
+    await ctx.send(embed= embed)
+
+
     
 @bot.command(name = 'les')
 async def lessons(ctx, *args):
@@ -88,7 +121,7 @@ async def lessons(ctx, *args):
         
         for i in doc:
             value = add_enumerate(doc[i])
-            embed.add_field(name = f'{i}', value = value, inline = True)
+            embed.add_field(name = f'{i}', value = value)
         await ctx.send(embed=embed)
         
     else:
@@ -103,14 +136,10 @@ async def lessons(ctx, *args):
         else:
             embed.title = "Ridge Coder Lessons"
             value=add_enumerate(result[0])
-            embed.add_field(name = f'{result[1]}', value = value)
+            res = result[1]
+            embed.add_field(name = f'{res}', value = value)
             await ctx.send(embed=embed)
         
-@bot.command()
-async def poll(ctx):
-    msg = await ctx.send("how are you feeling today?")
-    await msg.add_reaction('😀')
-    await msg.add_reaction('☹')
 
 
 bot.run(token, bot = True)
