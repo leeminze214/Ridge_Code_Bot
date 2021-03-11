@@ -29,6 +29,8 @@ def add_enumerate(it):
         value += f'{num}. [{j}]({it[j]})\n'
     return value
 
+
+
 #-----------------------------------------------------------------
 @bot.event
 async def on_member_join(member):
@@ -54,7 +56,7 @@ async def on_message(msg):
     await bot.process_commands(msg)
 
 
-
+#----------------------------------------------------------------
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! Latency is {round(bot.latency*1000,2)}ms')
