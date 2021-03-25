@@ -14,7 +14,7 @@
 	"Flask":{
 		"Intro to Flask":"https://docs.google.com/presentation/d/1lr_OuBUuqTOu_EX7OEz1pMUO_WNZiqskSv2pw-ql4DM/edit#slide=id.gc2d1edad3c_0_87",
 		"Routing & Structure":"https://docs.google.com/document/d/1svlq1dek2ZcfWkSXzejNIZOeetaSTMpVjPUou0XOZF0/edit",
-		"Jinja":"https://docs.google.com/document/d/1AopLLAPTRSYHBycb9Tc1VfetwR741OXk-g56Dt3TGBk/edit"
+		"Jinja":"https://docs.google.com/document/d/1AopLLAPTRSYHBycb9Tc1VfetwR741OXk-g56Dt3TGBk/edit",
 		"HTTP Methods":"https://docs.google.com/document/d/16eJ7nflfGvxSTstna3RLhwxxTO9Y9PrSptUTiIUvF0k/edit"
 	}
 	
