@@ -145,22 +145,7 @@ async def lessons(ctx, *args):
             res = result[1]
             embed.add_field(name = f'{res}', value = value)
             await ctx.send(embed=embed)
-        
-import time
-import pyautogui as pyauto
-import random
 
-
-@bot.command()
-async def lol(ctx):
-    text_box = (-1100, 1271)
-
-    while True:
-        pyauto.click(text_box)
-        pyauto.typewrite('.f')
-        time.sleep(1)
-        pyauto.press('enter') 
-        time.sleep(4320)
         
 
 
