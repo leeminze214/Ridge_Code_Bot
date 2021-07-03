@@ -116,6 +116,7 @@ async def social(ctx):
     
 @bot.command(name = 'les')
 async def lessons(ctx, *args):
+    #.les all
     q = ''.join([i+' ' for i in args])[:-1]
     q = q[0].upper()+q[1:].lower()
     result = None
@@ -144,6 +145,22 @@ async def lessons(ctx, *args):
             res = result[1]
             embed.add_field(name = f'{res}', value = value)
             await ctx.send(embed=embed)
+        
+import time
+import pyautogui as pyauto
+import random
+
+
+@bot.command()
+async def lol(ctx):
+    text_box = (-1100, 1271)
+
+    while True:
+        pyauto.click(text_box)
+        pyauto.typewrite('.f')
+        time.sleep(1)
+        pyauto.press('enter') 
+        time.sleep(4320)
         
 
 
