@@ -71,7 +71,7 @@ async def ping(ctx):
     embed = discord.Embed(title="Pong!")
     embed.add_field(name="> bot Latency", value=f"``{round(bot.latency * 1000)}ms``", inline=False)
     embed.add_field(name="> API Latency", value=f"``{round((end -  start) * 1000)}ms", inline=False)
-    return msg.edit(embed=embed)
+    return await msg.edit(embed=embed)
 
 
 @bot.command()
