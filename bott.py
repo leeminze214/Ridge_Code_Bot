@@ -61,10 +61,17 @@ async def on_message(msg):
 
 
 #----------------------------------------------------------------
-@bot.command()
+@bot.command() 
 async def ping(ctx):
-    await ctx.send(f'Pong! Latency is {round(bot.latency*1000,2)}ms')
-
+    embed = discord.Embed(title="Testing ping...")
+    import time 
+    start = time.time()
+    msg = await ctx.send(embed=embed)
+    end = time.time() 
+    embed = discord.Embed(title="Pong!")
+    embed.add_field(name="> Client Latency", value=f"``{round(client.latency * 1000)}ms``", inline=False)
+    embed.add_field(name="> API Latency", value=f"``{round((end -  start) * 1000)}ms", inline=False)
+    return msg.edit(embed=embed)
 
 
 @bot.command()
