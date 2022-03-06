@@ -35,6 +35,7 @@ def add_enumerate(it):
 
 
 #-----------------------------------------------------------------
+       
 @bot.event
 async def on_member_join(member):
     channel = member.guild.system_channel
@@ -42,6 +43,9 @@ async def on_member_join(member):
         await channel.send(f'Welcome {member.mention}')
     role = discord.utils.get(member.guild.roles, name="coders")
     await member.add_roles(role)
+    botrole = discord.utils.get(member.guild.roles, id =766772907128913972)
+    if member.bot:
+        await member.add_roles(botrole)
 
 
     
